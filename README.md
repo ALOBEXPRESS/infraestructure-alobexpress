@@ -135,14 +135,28 @@ Para garantir a compatibilidade e performance na GCP:
 ### 1. Preparação do Ambiente
 Execute os scripts de configuração inicial na raiz do nó Manager.
 
+1.  Acesse a **VM 1 (Manager)** via SSH.
+2.  Execute os comandos abaixo para baixar o repositório e instalar o Docker:
+
 ```bash
-# Dar permissão de execução
+# 1. Tornar-se root e atualizar o sistema
+sudo -i
+apt-get update && apt-get upgrade -y
+
+# 2. Instalar Git para baixar nosso projeto
+apt-get install -y git
+
+# 3. Baixar nosso repositório com todos os scripts
+git clone https://github.com/ALOBEXPRESS/infraestructure-alobexpress.git /root/infra
+
+# 4. Entrar na pasta e dar permissão aos scripts
+cd /root/infra
 chmod +x 01.setup-docker.sh 02.setup-swarm.sh
 
-# 1. Instalar Docker e Dependências
+# 5. Instalar Docker e Dependências
 ./01.setup-docker.sh
 
-# 2. Inicializar o Swarm e criar redes (network_swarm_public)
+# 6. Inicializar o Swarm e criar redes (network_swarm_public)
 ./02.setup-swarm.sh
 ```
 
