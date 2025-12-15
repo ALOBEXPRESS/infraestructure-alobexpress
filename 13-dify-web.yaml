@@ -5,7 +5,7 @@ services:
   dify_web:
     # Define a imagem do Dify
     # https://hub.docker.com/r/langgenius/dify-web
-    image: langgenius/dify-web:0.7.3
+    image: langgenius/dify-web:1.11.1
     # Define o Hostname
     hostname: "{{.Service.Name}}.{{.Task.Slot}}"
     # Configura a rede do Serviço
@@ -186,7 +186,7 @@ services:
       # Define onde o deploy deve ser postado
       placement:
         constraints:
-          - node.role == manager
+          - node.labels.app == dify
       # Define os recursos do serviço
       resources:
         # Configura os limites de recursos do Serviço

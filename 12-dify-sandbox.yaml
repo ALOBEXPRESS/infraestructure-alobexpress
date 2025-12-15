@@ -6,7 +6,7 @@ services:
   dify_sandbox:
     # Imagem do Serviço
     # https://hub.docker.com/r/langgenius/dify-sandbox
-    image: langgenius/dify-sandbox:0.2.4
+    image: langgenius/dify-sandbox:0.2.12
     # Define o Hostname do Container
     hostname: "{{.Service.Name}}.{{.Task.Slot}}"
     # Configura a rede do Serviço
@@ -36,7 +36,7 @@ services:
       placement:
         # Define onde o serviço irá rodar
         constraints:
-          - node.role == manager # Rodar serviço no Manager
+          - node.labels.app == dify # Rodar serviço no Manager
           # - node.hostname == srv-worker # Rodar serviço no Host
           # - node.labels.app == workers # Rodar serviço no Host no Label: app, valor do label: workers
       resources:

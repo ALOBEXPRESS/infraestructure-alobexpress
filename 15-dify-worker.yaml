@@ -5,7 +5,7 @@ services:
   dify_worker:
     # Define a imagem do Dify
     # https://hub.docker.com/r/langgenius/dify-api
-    image: langgenius/dify-api:0.7.1
+    image: langgenius/dify-api:1.11.1
     # Define as redes do docker
     networks:
       - network_swarm_public
@@ -181,7 +181,7 @@ services:
       # Define onde o deploy deve ser postado
       placement:
         constraints:
-          - node.role == manager
+          - node.labels.app == dify
       # Define os recursos do serviço
       resources:
         # Configura os limites de recursos do Serviço

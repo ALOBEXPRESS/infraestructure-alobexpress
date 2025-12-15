@@ -6,7 +6,7 @@ services:
     # imagem do docker
     # se possível, não use a latest .. deixe uma versão fixa
     # https://hub.docker.com/r/n8nio/n8n/tags
-    image: n8nio/n8n:latest
+    image: n8nio/n8n:2.0.2
     # Define o hotname do container
     hostname: "{{.Service.Name}}.{{.Task.Slot}}"
     # comando padrão para subir o servidor web do editor
@@ -117,7 +117,7 @@ services:
       placement:
         constraints:
           # Você pode rodar o Editor no Manager mesmo pois usa poucos recursos
-          - node.role == manager
+          - node.labels.app == n8n
           # - node.hostname == worker1
           # - node.labels.app == http # nome do label: app, valor do label: http
       # Limitação

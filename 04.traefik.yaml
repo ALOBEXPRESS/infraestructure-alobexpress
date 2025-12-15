@@ -3,14 +3,17 @@ version: "3.7"
 services:
   traefik:
     # https://hub.docker.com/_/traefik/tags
-    image: traefik:v2.11.8
+    image: traefik:v3.6.4
     hostname: "{{.Service.Name}}.{{.Task.Slot}}"
     command:
       - "--api.dashboard=true"
-      - "--providers.docker.swarmMode=true"
-      - "--providers.docker.endpoint=unix:///var/run/docker.sock"
-      - "--providers.docker.exposedbydefault=false"
-      - "--providers.docker.network=network_swarm_public"
+      # Swarm Provider Configuration for Traefik v3
+      - "--providers.swarm=true"
+      - "--providers.swarm.endpoint=unix:///var/run/docker.sock"
+      - "--providers.swarm.exposedbydefault=false"
+      - "--providers.swarm.network=network_swarm_public"
+      # Compatibility for v2 rules (Optional, ensures smooth migration)
+      - "--core.defaultRuleSyntax=v2"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
       - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
@@ -35,7 +38,7 @@ services:
         - "traefik.http.middlewares.redirect-https.redirectscheme.permanent=true"
         - "traefik.http.routers.http-catchall.rule=hostregexp(`{host:.+}`)"
         - "traefik.http.routers.http-catchall.entrypoints=web"
-        - "traefik.http.routers.http-catchall.middlewares=redirect-https@docker"
+        - "traefik.http.routers.http-catchall.middlewares=redirect-https@swarm"
         - "traefik.http.routers.http-catchall.priority=1"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
